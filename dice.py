@@ -7,10 +7,12 @@ def password(n_words):
                 contents = f.read().split('\n')[:-1]
 
         words = [i.split('\t')[1] for i in contents]
-
-        password = ''
+        password = []
         for i in range(n_words):
-                random_index = secrets.choice(range(len(words)+1))
-                password += str.capitalize(words[random_index])
+                w = secrets.choice(words)
+                password.append(str.capitalize(w))
 
-        return password
+        return " ".join(password)
+
+if __name__ == '__main__':
+        print(password(5))
