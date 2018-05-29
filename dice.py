@@ -15,4 +15,5 @@ def password(n_words):
         return " ".join(password)
 
 if __name__ == '__main__':
-        print(password(5))
+        for i in range(5):
+                print(password(5))
