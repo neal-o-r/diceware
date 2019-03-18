@@ -26,8 +26,8 @@ def do_check(password):
     q, check = hshd[:5], hshd[5:]
 
     poss, nums = query(q)
-    i = poss.index(check)
-    if i:
+    if check in poss:
+        i = poss.index(check)
         print(f"You've been pwned; hash {hshd} occurs {nums[i]} times")
     else:
         print("You haven't been pwned")
