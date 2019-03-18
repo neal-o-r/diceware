@@ -1,6 +1,7 @@
 import requests as req
 import hashlib
 import argparse
+import sys
 
 
 def query(prefix):
@@ -28,14 +29,18 @@ def do_check(password):
     poss, nums = query(q)
     if check in poss:
         i = poss.index(check)
-        print(f"You've been pwned; hash {hshd} occurs {nums[i]} times")
+        print(f"You've been pwned; {password} (hash {hshd}) occurs {nums[i]} times")
     else:
-        print("You haven't been pwned")
+        print(f"You haven't been pwned with {password}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Have I been pwned?")
-    parser.add_argument("password")
+    parser.add_argument("password", nargs="?", default=None)
     args = vars(parser.parse_args())
 
-    do_check(args["password"])
+    if args["password"] is None:
+        password = sys.stdin.readline().rstrip()
+        do_check(password)
+    else:
+        do_check(args["password"])
