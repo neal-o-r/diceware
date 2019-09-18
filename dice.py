@@ -1,19 +1,21 @@
 import secrets
+import requests
 import argparse
 import sys
 
 
-def password(n_words):
+def get_words():
 
-    with open("diceware.txt", "r") as f:
-        contents = f.read().split("\n")[:-1]
+    link = "https://raw.githubusercontent.com/neal-o-r/diceware/master/diceware.txt"
+    contents = requests.get(link).text.split("\n")[:-1]
 
     words = [i.split("\t")[1] for i in contents]
-    password = []
-    for i in range(n_words):
-        w = secrets.choice(words)
-        password.append(str.capitalize(w))
+    return words
 
+
+def password(words, n_words):
+
+    password = [secrets.choice(words).capitalize() for _ in range(n_words)]
     return " ".join(password)
 
 
@@ -25,5 +27,7 @@ if __name__ == "__main__":
     )
     args = vars(parser.parse_args())
 
+    words = get_words()
+
     for i in range(args["n_passwords"]):
-        sys.stdout.write(password(args["n_words"]) + '\n')
+        sys.stdout.write(password(words, args["n_words"]) + "\n")
